@@ -1,2 +1,2 @@
-# rpa_hackathon
-UiPath RPA Hackathon in Pune Aug 2019
+# rpa_uipath_hackathon_aug19
+RPA project for UiPath hackathon in Pune on August 2019
