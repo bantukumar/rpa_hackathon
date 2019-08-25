@@ -1,0 +1,520 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="PostPromotions" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mv="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:s="clr-namespace:System;assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:s1="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.Collections;assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:scg1="clr-namespace:System.Collections.Generic;assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sd1="clr-namespace:System.Data;assembly=System.Data.DataSetExtensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sd2="clr-namespace:System.Diagnostics;assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sd3="clr-namespace:System.Drawing;assembly=System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" xmlns:si="clr-namespace:System.IO;assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sl="clr-namespace:System.Linq;assembly=System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sx="clr-namespace:System.Xml;assembly=System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:sxl="clr-namespace:System.Xml.Linq;assembly=System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="inConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="inTransactionItem" Type="InArgument(ui:QueueItem)" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>1397,4731</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <mva:VisualBasic.Settings>Assembly references and imported namespaces for internal implementation</mva:VisualBasic.Settings>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="7">
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="11">
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Post Promotions" sap:VirtualizedContainerService.HintSize="1357,4651" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="njl:JObject" Name="varPortalJsonObj" />
+      <Variable x:TypeArguments="njl:JArray" Name="varPortalsJsonArr" />
+      <Variable x:TypeArguments="x:String" Name="varPortals" />
+      <Variable x:TypeArguments="x:String" Name="varXamlFileNm" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="varPostContent" />
+      <Variable x:TypeArguments="x:String" Name="varItemPortals" />
+      <Variable x:TypeArguments="s1:String[]" Name="varItemPortalsArr" />
+      <Variable x:TypeArguments="x:Boolean" Name="varFileExits" />
+      <Variable x:TypeArguments="x:String" Name="varTitle" />
+      <Variable x:TypeArguments="x:String" Name="varItemDscr" />
+      <Variable x:TypeArguments="x:String" Name="varReqSampleLnk" />
+      <Variable x:TypeArguments="x:String" Name="varEnquireLnk" />
+      <Variable x:TypeArguments="x:String" Name="varBuyNowLnk" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="varHasTags" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="varIsFinalDescGenerated" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_22">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Boolean">[varIsFinalDescGenerated]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="New dictionary" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[varPostContent]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[new Dictionary(of String, String)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Add key/value pair - Title" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_11">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemTitle").ToString.Trim)]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inTransactionItem.SpecificContent(inConfig("itemTitle").ToString).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Add key/value pair - Company" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemCompany").ToString.Trim)]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inTransactionItem.SpecificContent(inConfig("itemCompany").ToString).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Add key/value pair - Portals" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemPortals").ToString.Trim)]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inTransactionItem.SpecificContent(inConfig("itemPortals").ToString).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varItemPortals]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inTransactionItem.SpecificContent(inConfig("itemPortals").ToString).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Add key/value pair - itemImage" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemImage").ToString.Trim)]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inTransactionItem.SpecificContent(inConfig("itemImage").ToString).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Add key/value pair - Description" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemDescription").ToString.Trim)]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inTransactionItem.SpecificContent(inConfig("itemDescription").ToString).ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:CommentOut DisplayName="NOT WORKING - Comment Out" sap:VirtualizedContainerService.HintSize="1319,52" sap2010:WorkflowViewState.IdRef="CommentOut_11">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="368,179" sap2010:WorkflowViewState.IdRef="Sequence_14">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ValidateAndExtractPromoData workflow" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="source/ValidateAndExtractPromoData.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="inUrl">[inConfig("promoBuyPortal").ToString]</InArgument>
+              <InArgument x:TypeArguments="ui:QueueItem" x:Key="inTransactionitem">[inTransactionItem]</InArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="outTitle">[varTitle]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="outDescr">[varItemDscr]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="outReqSampleLnk">[varReqSampleLnk]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="outEnquireLnk">[varEnquireLnk]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="outBuyNowLnk">[varBuyNowLnk]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:InvokeWorkflowFile>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+    <Assign DisplayName="Read the portals information from config" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[varPortals]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[inConfig("PromotionPortals").ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:DeserializeJsonArray DisplayName="Deserialize portals string as a JSON Array" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="DeserializeJsonArray_1" JsonArray="[varPortalsJsonArr]" JsonString="[varPortals]">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:DeserializeJsonArray>
+    <Assign DisplayName="Get the portals defined for item" sap:VirtualizedContainerService.HintSize="1319,60" sap2010:WorkflowViewState.IdRef="Assign_13">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s1:String[]">[varItemPortalsArr]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s1:String[]">[varItemPortals.Split(",".ToCharArray, StringSplitOptions.RemoveEmptyEntries)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="For Each portals" sap:VirtualizedContainerService.HintSize="1319,3275" sap2010:WorkflowViewState.IdRef="ForEach`1_10" Values="[varPortalsJsonArr]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="njl:JToken">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="njl:JToken" Name="item" />
+          </ActivityAction.Argument>
+          <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="1287,3140" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <TryCatch.Try>
+              <Sequence DisplayName="Call post promotions methods" sap:VirtualizedContainerService.HintSize="1253,2908" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="varPortalName" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign DisplayName="Fetch file name from config json" sap:VirtualizedContainerService.HintSize="1215,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[varXamlFileNm]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[item("fileName").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign sap:VirtualizedContainerService.HintSize="1215,60" sap2010:WorkflowViewState.IdRef="Assign_15">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[varPortalName]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[item("name").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <ui:LogMessage DisplayName="Log file name" sap:VirtualizedContainerService.HintSize="1215,52" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Invoking &quot; + varXamlFileNm + &quot;...&quot;]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:LogMessage>
+                <If Condition="[Array.IndexOf(varItemPortalsArr, varPortalName) = -1]" DisplayName="Check if portal specifed for the item" sap:VirtualizedContainerService.HintSize="1215,2524" sap2010:WorkflowViewState.IdRef="If_1">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence DisplayName="Portal not spefied for the item" sap:VirtualizedContainerService.HintSize="216,68" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="216,51" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;No post for &quot; + varPortalName]">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:LogMessage>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence DisplayName="Check if file exits then  call" sap:VirtualizedContainerService.HintSize="958,2374" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap:VirtualizedContainerService.HintSize="920,60" sap2010:WorkflowViewState.IdRef="Assign_14">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[varXamlFileNm]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">["source\PostTo\"+varXamlFileNm + ".xaml"]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:PathExists DisplayName="Path Exists" Exists="[varFileExits]" sap:VirtualizedContainerService.HintSize="920,52" sap2010:WorkflowViewState.IdRef="PathExists_1" Path="[varXamlFileNm]" PathType="File">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:PathExists>
+                      <If Condition="[varFileExits]" DisplayName="If portal file exists" sap:VirtualizedContainerService.HintSize="920,2090" sap2010:WorkflowViewState.IdRef="If_2">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <If.Then>
+                          <Sequence sap:VirtualizedContainerService.HintSize="663,1940" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If Condition="[varPortalName.Equals(&quot;PaidPortal1&quot;)]" DisplayName="If this is a paid portal" sap:VirtualizedContainerService.HintSize="625,933" sap2010:WorkflowViewState.IdRef="If_3">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If.Then>
+                                <Sequence DisplayName="Validate report on main portal and extract data" sap:VirtualizedContainerService.HintSize="368,783" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ValidateAndExtractPromoData workflow" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="source/ValidateAndExtractPromoData.xaml">
+                                    <ui:InvokeWorkflowFile.Arguments>
+                                      <InArgument x:TypeArguments="x:String" x:Key="inUrl">[inConfig("promoBuyPortal").ToString]</InArgument>
+                                      <InArgument x:TypeArguments="ui:QueueItem" x:Key="inTransactionitem">[inTransactionItem]</InArgument>
+                                      <OutArgument x:TypeArguments="x:String" x:Key="outTitle">[varTitle]</OutArgument>
+                                      <OutArgument x:TypeArguments="x:String" x:Key="outDescr">[varItemDscr]</OutArgument>
+                                      <OutArgument x:TypeArguments="x:String" x:Key="outReqSampleLnk">[varReqSampleLnk]</OutArgument>
+                                      <OutArgument x:TypeArguments="x:String" x:Key="outEnquireLnk">[varEnquireLnk]</OutArgument>
+                                      <OutArgument x:TypeArguments="x:String" x:Key="outBuyNowLnk">[varBuyNowLnk]</OutArgument>
+                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="inConfig">[inConfig]</InArgument>
+                                    </ui:InvokeWorkflowFile.Arguments>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:InvokeWorkflowFile>
+                                  <Assign DisplayName="Add key/value pair - Description" sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemDescription").ToString.Trim)]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[varItemDscr]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign DisplayName="Add key/value pair - By Now Link" sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_17">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemBuyNowLnk").ToString.Trim)]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[varBuyNowLnk]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign DisplayName="Add key/value pair - Request Sample" sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_18">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemRequestSampleLnk").ToString.Trim)]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[varReqSampleLnk]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign DisplayName="Add key/value pair - Enquire Link" sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemEnquireDisLnk").ToString.Trim)]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[varEnquireLnk]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign DisplayName="Get the final description" sap:VirtualizedContainerService.HintSize="330,64" sap2010:WorkflowViewState.IdRef="Assign_24">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemDescription").ToString.Trim)]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String" xml:space="preserve">[varItemDscr + Environment.NewLine + 
+"Buy Now | " + varBuyNowLnk +
+"Request a sample | " + varReqSampleLnk +
+"Enquire for discount | " + varEnquireLnk]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_23">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Boolean">[varIsFinalDescGenerated]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </Sequence>
+                              </If.Then>
+                              <If.Else>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="216,52" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;No validation&quot;]">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:LogMessage>
+                              </If.Else>
+                            </If>
+                            <Sequence DisplayName="Generate Final Description" sap:VirtualizedContainerService.HintSize="625,748" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If Condition="[varIsFinalDescGenerated]" sap:VirtualizedContainerService.HintSize="509,656" sap2010:WorkflowViewState.IdRef="If_4">
+                                <If.Else>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="368,506" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke StoryToSummary workflow" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="source/StoryToSummary.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="inStory">[varPostContent(inConfig("itemDescription").ToString.Trim)]</InArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="outStorySummary">[varItemDscr]</OutArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke HashTagIndentifer File" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="source\HashTagIndentifier.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="inUrl">https://www.all-hashtag.com/hashtag-analytics.php</InArgument>
+                                        <InArgument x:TypeArguments="x:Int32" x:Key="inHitCount">[convert.ToInt32(inConfig("HitCoutThreshold"))]</InArgument>
+                                        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="outResult">[varHasTags]</OutArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="inDescription">[varItemDscr]</InArgument>
+                                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="inConfig">[inConfig]</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                    <Assign DisplayName="Get the final description" sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_20">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[varPostContent(inConfig("itemDescription").ToString.Trim)]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[varItemDscr + Environment.NewLine + String.Join(" ", varHasTags.ToArray())]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap:VirtualizedContainerService.HintSize="330,60" sap2010:WorkflowViewState.IdRef="Assign_21">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[varIsFinalDescGenerated]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                            </Sequence>
+                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Workflow File" sap:VirtualizedContainerService.HintSize="625,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="[varXamlFileNm]">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="inConfig">[inConfig]</InArgument>
+                                <InArgument x:TypeArguments="ui:QueueItem" x:Key="inTransactionItem">[inTransactionItem]</InArgument>
+                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)" x:Key="inPostContent">[varPostContent]</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:InvokeWorkflowFile>
+                          </Sequence>
+                        </If.Then>
+                        <If.Else>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="216,52" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;File does not exits: &quot; + varXamlFileNm]">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:LogMessage>
+                        </If.Else>
+                      </If>
+                    </Sequence>
+                  </If.Else>
+                </If>
+              </Sequence>
+            </TryCatch.Try>
+            <TryCatch.Catches>
+              <Catch x:TypeArguments="s1:Exception" sap:VirtualizedContainerService.HintSize="1257,22" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ActivityAction x:TypeArguments="s1:Exception">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="s1:Exception" Name="exception" />
+                  </ActivityAction.Argument>
+                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="330,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[&quot;Error while posting: &quot; + exception.Message]" />
+                </ActivityAction>
+              </Catch>
+            </TryCatch.Catches>
+          </TryCatch>
+        </ActivityAction>
+      </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ForEach>
+    <ui:CommentOut DisplayName="Comment Out - Single function call" sap:VirtualizedContainerService.HintSize="1319,52" sap2010:WorkflowViewState.IdRef="CommentOut_13">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="368,179" sap2010:WorkflowViewState.IdRef="Sequence_16">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Workflow File" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="source\PostTo\postToFacebook.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="inConfig">[inConfig]</InArgument>
+              <InArgument x:TypeArguments="ui:QueueItem" x:Key="inTransactionItem">[inTransactionItem]</InArgument>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)" x:Key="inPostContent">[varPostContent]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+  </Sequence>
+</Activity>

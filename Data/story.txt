@@ -1,0 +1,15 @@
+Running a workshop can seem like a huge undertaking. When Globant decided to run one with UiPath for RPA enthusiast to build their first UiPath bot on Saturday, August 3, 2019 at the Pune Facility in Hinjewadi (the second one in association with UiPAth in a month), it was an intensive afternoon. 
+
+The Intent
+
+Innovations have already been predicted for the future of Robotic Process Automation and definitely, RPA is going to create a significant influence on the world economy. With the mindset of spreading awareness and helping RPA lovers to take probably their first step towards building their RPA BOT, Globant decided to run this workshop. The purpose is also to clear a few myths about RPA – including the RPA is codeless development, an RPA developer does not require programming skills to build a solution, RPA is going to replace humans in the workforce, and many such ones.
+
+All’s Well That Ends Well
+
+In the presence of over 40 RPA appreciators, the RPA BOT development workshop was an absolute blast with some great attendees who came in with an open and inquisitive mind and had loads of questions. There was a lot of active participation and the workshop started with a brief introduction of RPA and UiPath Studio, post which Alankar More and Rupali More of Globant took the audience through UiPath studio, all its major components, basic activities and a quick walkthrough of automation using web recording. The audience also went through a full exercise as an RPA challenge to automate a web form submission which was itself a great experience for the attendees, having a lot of fun exploring, which was fantastic to see! 
+
+Having  Saahil Chauhan, Solution architect at UiPath, in the room to help us with his technical inputs was incredibly resourceful. They shared valuable information about recent trends, workshops, and hackathons and encouraged everyone to participate in them. Furthermore, Vasundhara Sharma, system engineer at Infosys demoed data scraping feature of UiPath with a live example of extracting prices of iPhone mobiles in a CSV file and send that to her via email. 
+
+Key Takeaways
+
+The workshop was helpful for the participants to enrich them with a lot of information about RPA, various RPA tools and gave a very good hands-on experience of their first UiPath bot development. 

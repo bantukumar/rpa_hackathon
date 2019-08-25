@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Paid Portal",
+    "url": "http://www.paidportalname1.com",
+    "credAssetName": "paidportal",
+    "fileName": "postToPaidPortal.xaml"
+  },
+  {
+    "name": "Facebook",
+    "url": "https://www.facebook.com",
+    "credAssetName": "facebook",
+    "fileName": "postToFacebook.xaml"
+  },
+  {
+    "name": "LinkedIn",
+    "url": "https://www.linkedin.com",
+    "credAssetName": "linkedIn",
+    "fileName": "postToLinkedIn.xaml"
+  }
+]
