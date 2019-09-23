@@ -6,7 +6,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>665,449</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>641,391</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>AddItemToQueue_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -59,24 +59,25 @@
       <AssemblyReference>UiPath.Python</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="AddItemToQueue" sap:VirtualizedContainerService.HintSize="625,329" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="AddItemToQueue" sap:VirtualizedContainerService.HintSize="621,331" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <If Condition="[in_TransactionItem(&quot;Title&quot;).ToString = &quot;&quot; or  in_TransactionItem(&quot;Title&quot;).ToString = String.Empty]" sap:VirtualizedContainerService.HintSize="587,237" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[in_TransactionItem(&quot;Title&quot;).ToString = &quot;&quot; or  in_TransactionItem(&quot;Title&quot;).ToString = String.Empty]" sap:VirtualizedContainerService.HintSize="579,239" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="330,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Null value found&quot;]" />
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Empty title skipped while adding it to queue.&quot;]" />
       </If.Then>
       <If.Else>
-        <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item" sap:VirtualizedContainerService.HintSize="216,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_1" Priority="Normal" QueueType="[in_Config(&quot;OrchPromotionQueueName&quot;).ToString]">
+        <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_1" Priority="Normal" QueueType="[in_Config(&quot;OrchPromotionQueueName&quot;).ToString]">
           <ui:AddQueueItem.ItemInformation>
             <InArgument x:TypeArguments="x:String" x:Key="Title">[in_TransactionItem("Title").ToString]</InArgument>
             <InArgument x:TypeArguments="x:String" x:Key="Company">[in_TransactionItem("Company").ToString]</InArgument>
             <InArgument x:TypeArguments="x:String" x:Key="Portals">[in_TransactionItem("Portals").ToString]</InArgument>
             <InArgument x:TypeArguments="x:String" x:Key="Image">[in_TransactionItem("Image").ToString]</InArgument>
             <InArgument x:TypeArguments="x:String" x:Key="Description">[in_TransactionItem("Description").ToString]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="Recipients">[in_TransactionItem("Recipients").ToString]</InArgument>
           </ui:AddQueueItem.ItemInformation>
         </ui:AddQueueItem>
       </If.Else>
